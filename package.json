@@ -1,7 +1,7 @@
 {
   "name": "markdown-linker",
   "displayName": "Markdown Linker",
-  "description": "Link source code and markdown readme files",
+  "description": "Links source code and markdown readme files",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.87.0"
