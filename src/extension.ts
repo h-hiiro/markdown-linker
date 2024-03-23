@@ -1,26 +1,43 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
+import path from "node:path";
+import { access, constants } from "node:fs";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	console.log("markdown-linker extension is activated");
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "markdown-linker" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('markdown-linker.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Markdown Linker!');
+	function getMdUri(e: any, callback: Function) {
+		const codePath = e.fsPath;
+		const parsedPath = path.parse(codePath);
+		const mdName = parsedPath.name + ".md";
+		const mdPath = path.join(parsedPath.dir, mdName);
+		console.log("markdown-linker filename: " + mdName);
+		access(mdPath, constants.R_OK, (err) => {
+			if (err) {
+				vscode.window.showWarningMessage("Readme file " + mdName + " does not exist or is not readable");
+				return;
+			} else {
+				callback(vscode.Uri.file(mdPath));
+			}
+		});
+	}
+	vscode.commands.registerCommand("markdown-linker.mdpreview", (e) => {
+		getMdUri(e, (uri: vscode.Uri) => {
+			vscode.commands.executeCommand("vscode.open", uri);
+			vscode.commands.executeCommand("markdown.showPreviewToSide", uri);
+		});
 	});
-
-	context.subscriptions.push(disposable);
+	vscode.commands.registerCommand("markdown-linker.gotomd", (e) => {
+		getMdUri(e, (uri: vscode.Uri) => {
+			const editor = vscode.window.activeTextEditor;
+			if (editor) {
+				var text = editor.document.getText(editor.selection);
+				console.log("markdown-linker.gotomd: "+text);
+				vscode.commands.executeCommand("vscode.open", uri);
+				vscode.commands.executeCommand("workbench.action.quickOpen", "@" + text);
+				vscode.commands.executeCommand("markdown.showPreviewToSide", uri);
+			}
+		});
+	});
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
