@@ -18,7 +18,7 @@ The markdown file should be in the same directory as the specified source code f
 For example, if you choose ```src/main.go```, the extension opens ```src/main.md```.
 
 ### Markdown preview and go to the target
-With the editor having selection, the extension opens a markdown file and go to the corresponding paragraph.
+With the editor having selection, the extension opens a markdown file and go to the corresponding paragraph by clicking another menu ```Open Readme and Go to the Specified Target```.
 
 The rule for the markdown file name is the same as the above function.
 After that, the **gotosymbol** function (```Ctrl+Shift+O``` by default) is executed using the selected text as the argument.

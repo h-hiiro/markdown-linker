@@ -7,3 +7,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## 0.0.1 (20240323)
 
 - Initial release
+
+## 0.0.2 (20240325)
+
+- Icon added

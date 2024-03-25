@@ -2,10 +2,11 @@
   "name": "markdown-linker",
   "displayName": "Markdown Linker",
   "description": "Links source code and markdown readme files",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.87.0"
   },
+  "icon": "./icon.png",
   "categories": [
     "Other"
   ],
@@ -45,6 +46,7 @@
       ]
     }
   },
+  "publisher": "hhiiro",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
